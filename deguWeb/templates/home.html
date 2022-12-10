@@ -1,0 +1,56 @@
+{% extends 'layout/base.html' %}
+
+{% block content %}
+
+<div class='container'>
+    <div class='form-box'>
+        <h2>Form</h2>
+        <div class='filter-table'>
+            <form class='form' method='POST'>
+                {% csrf_token %}
+                <div class='form-opt'>
+                    {{ filter.as_p }}
+                </div>
+                <div class='form-btns'>
+                    <button class='form-btn'>
+                        Search
+                    </button>
+                    {% comment %} <button action='/downland' class='form-btn'>
+                        Downland
+                    </button> {% endcomment %}
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class='result-box'>
+        <span>
+            <h2>Results</h2>
+            <a href='/download'><button>Download</button></a>
+        </span>
+        <div class='results-table'> 
+            <div class='results-columns'>
+                <div>Name</div>
+                <div>Group</div>
+                <div>C</div>
+                <div>D</div>
+                <div>E</div>
+                <div>F</div>
+                <div>G</div>
+            </div>
+            {% for e in genes %}
+                <div class='results-rows'>
+                    <div>{{ e.name }}</div>
+                    <div>{{ e.group }}</div>
+                    <div>3</div>
+                    <div>4</div>
+                    <div>5</div>
+                    <div>6</div>
+                    <div>7</div>
+                </div>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}

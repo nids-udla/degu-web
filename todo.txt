@@ -1,0 +1,13 @@
+Check point 1 (11/25/2022):
+    - Add the buttons to the form.
+    - Add the method to the form.
+
+    - Finish designing data base to create models.
+    - Register the models into the admin.py.
+    - Import the models to use with the views.py.
+    - Create the data base "genes":
+        - Connect the MariaDB with the Django app.
+        - Make the migrations.
+        - Migrate the data base.
+    
+    * Ask for help to find an efficient way to dump the data into the data base.

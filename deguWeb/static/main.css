@@ -1,0 +1,141 @@
+/* Global */
+:root{
+    --baseColorA: #608355;
+    --baseColorB: #94B887;
+    --baseColorC: #DFF8D5;
+
+    --letters: #000000;
+    --highlights: #00BBFF;
+}
+
+body {
+    background-color: var(--baseColorC);
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Upper section (nav) */
+.nav {
+    background-color: var(--baseColorA);
+    height: 6em;
+    text-align: center;
+}
+
+.nav h2 {
+    margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Mid section (content) */
+.container {
+    display: grid;
+    grid-template-rows: 1fr 3fr;
+}
+
+.container h2 {
+    margin: .8em 1em;
+}
+
+.form-box {
+    background-color: var(--baseColorB);
+    margin: .8em 1.2em;
+}
+
+/* .filter-table {} -> Siguiente pero sin uso */
+
+.form {
+    margin: .8em 1.2em;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+}
+
+.form-B {
+    margin: .8em 1.2em;
+}
+
+/* .form-opt{} */
+
+.form-btns {
+    display: grid;
+    grid-template-rows: 1fr;
+}
+
+.form-btn {
+    background-color: var(--highlights);
+    color: var(--letters);
+    border: none;
+    height: 3em;
+    align-self: flex-end;
+}
+
+.result-box {
+    background-color: var(--baseColorB);
+    margin: .8em 1.2em;
+}
+
+.result-box span {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.result-box span button {
+    /* background-color: var(--highlights);
+    border: none;
+    border-radius: .3em; */
+    background-color: var(--highlights);
+    color: var(--letters);
+    margin: .8em 1.2em;
+    border: none;
+    height: 3em;
+    align-self: flex-end;
+}
+
+.results-table {
+    text-align: center;
+    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+}
+
+.results-columns {
+    background-color: #E0E7DA;
+    border-style: solid;
+    border-color: #CED4C9;
+    border-width: .1em;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin: 0 .8em;
+    border-radius: .3em;
+}
+
+.results-columns div {
+    height: 2.5em;
+    border-radius: .3em;
+}
+
+.results-rows {
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin: 0 .8em;
+    height: 2em;
+    background-color: white;
+    border-style: solid;
+    border-color: #CED4C9;
+    border-width: .1em;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Under section (footer) */
+.footer {
+    background-color: var(--baseColorA);
+    height: 6em;
+    text-align: center;
+}
+
+.footer h2 {
+    margin: 0;
+}
