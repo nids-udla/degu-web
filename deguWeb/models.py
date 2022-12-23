@@ -5,6 +5,7 @@ from django.db import models
 #------------------------------------------------------------
 # Orden de tablas:
 #   - SPECIE
+#   - CLUSTER
 #   - GENOMEVERSION
 #   - GENE
 #   - GENOMEVERSION_GENE
@@ -16,7 +17,6 @@ from django.db import models
 #   - EGGNOGOGGENE_GENE
 #   - GENONTOLOGY
 #   - GENONTOLOGY_GEN
-#   - CLUSTER
 #------------------------------------------------------------
 # Pendientes:
 #   - BIGG
@@ -112,27 +112,3 @@ class GENONTOLOGY_GEN(models.Model):
     id_gene = models.ForeignKey(GENE,on_delete=models.CASCADE)
     id_geneontology = models.ForeignKey(GENONTOLOGY,on_delete=models.CASCADE)
 
-#---------------------------------------------------------------------------------
-# class group(models.Model):
-#     # [hs, mm, od, hg]
-#     members = models.CharField(max_length=50)
-
-#     def __str__(self):
-#         return('[{}]'.format(self.members))
-
-# class gen(models.Model):
-#     name = models.CharField(max_length=50)
-#     group = models.ForeignKey(group, on_delete=models.CASCADE)
-
-# class attribute(models.Model):
-#     name = models.CharField(max_length=50)
-#     id_gen = models.ForeignKey(gen, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return('Name {} // From {}'.format(self.name,self.id_gen.name))
-
-# class SPECIE(models.Model):
-#     name = models.CharField(max_length=50)
-
-#     def __str__(self):
-#         return 'Name: {}'.format(self.name)

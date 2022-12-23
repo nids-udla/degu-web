@@ -1,5 +1,7 @@
 # ---------- The form ----------
 from .forms import Filter
+# ---------- The tables ----------
+from .models import SPECIE, CLUSTER, GENOMEVERSION, GENE, GENOMEVERSION_GENE, COG, COG_GENE, EC, EC_GENE, EGGNOG_OG, EGGNOGOGGENE_GENE, GENONTOLOGY, GENONTOLOGY_GEN, CLUSTER
 # ---------- To render the info ----------
 from django.shortcuts import render
 # from .models import gen, attribute, SPECIE, group
@@ -30,12 +32,12 @@ def home(request):
             toSearch.append('nmr')
 
     # --- Searching for the cluster id ---
-    groups = group.objects.all()
+    groups = CLUSTER.objects.all()
     for e in groups:
-        if str(e.members).split(',') == toSearch:
+        if str(e.description).split(',') == toSearch:
             # --- Using cluster id to filter the genes ---
             k = e.id
-            genes = gen.objects.filter(group=k)
+            genes = GENE.objects.filter(cluster=k)
             # --- Saving cluster id in a session ---
             request.session['key'] = k
             break
@@ -50,7 +52,7 @@ def home(request):
 def download(request):
     # --- Using cluster id to filter the genes ---
     k = request.session['key']
-    genes = gen.objects.filter(group=k)
+    genes = GENE.objects.filter(cluster=k)
 
     # --- Creating excel with pandas ---
     df = pd.DataFrame(list(genes.values()))

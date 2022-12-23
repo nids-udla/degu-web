@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-^#52nq7hw!h6+!9pip*@q=em5c0y51hr19d^ic852n96v&tv6+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,8 +84,12 @@ GRAPH_MODELS ={
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'deguweb',
+        'USER': 'root',
+        'PASSWORD': 'ottotorapilontai',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
