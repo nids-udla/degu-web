@@ -1,11 +1,12 @@
 /* Global */
 :root{
-    --baseColorA: #608355;
-    --baseColorB: #94B887;
-    --baseColorC: #DFF8D5;
+    --baseColorA: #9D9D9D;
+    --baseColorB: #D4D4D4;
+    --baseColorC: #F2ECFF;
 
-    --letters: #000000;
-    --highlights: #00BBFF;
+    --lettersA: #000000;
+    --lettersB: #F2ECFF;
+    --highlights: #005A34;
 }
 
 body {
@@ -66,7 +67,7 @@ body {
 
 .form-btn {
     background-color: var(--highlights);
-    color: var(--letters);
+    color: var(--lettersA);
     border: none;
     height: 3em;
     align-self: flex-end;
@@ -88,7 +89,7 @@ body {
     border: none;
     border-radius: .3em; */
     background-color: var(--highlights);
-    color: var(--letters);
+    color: var(--lettersA);
     margin: .8em 1.2em;
     border: none;
     height: 3em;
