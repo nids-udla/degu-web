@@ -67,7 +67,7 @@ body {
 
 .form-btn {
     background-color: var(--highlights);
-    color: var(--lettersA);
+    color: var(--lettersB);
     border: none;
     height: 3em;
     align-self: flex-end;
@@ -89,7 +89,7 @@ body {
     border: none;
     border-radius: .3em; */
     background-color: var(--highlights);
-    color: var(--lettersA);
+    color: var(--lettersB);
     margin: .8em 1.2em;
     border: none;
     height: 3em;
