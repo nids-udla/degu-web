@@ -23,11 +23,59 @@ body {
 .nav {
     background-color: var(--baseColorA);
     height: 6em;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .nav h2 {
     margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* Emergent section (extended) */
+
+.e-container{
+    display: grid;
+    grid-template-rows: .5fr 1fr 2fr;
+    margin: 1em;
+    padding: .5em;
+    background-color: var(--baseColorB);
+    border: solid .15em black;
+}
+
+.e-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* .e-info{} */
+
+.e-results-columns{
+    background-color: #E0E7DA;
+    border-style: solid;
+    border-color: #CED4C9;
+    border-width: .1em;
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    margin: 0 .8em;
+    border-radius: .3em;
+}
+
+.e-tables{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.e-tables div{
+    background-color: #E0E7DA;
+    border-width: .1em;
+    display: grid;
+    grid-template-rows: repeat(7,1fr);
+    margin: 0 .8em;
+    padding: .3em;
+    border-radius: .3em;
 }
 
 /* -------------------------------------------------------------------------- */
@@ -71,6 +119,7 @@ body {
     border: none;
     height: 3em;
     align-self: flex-end;
+    margin: .3em;
 }
 
 .result-box {
@@ -98,8 +147,9 @@ body {
 
 .results-table {
     text-align: center;
-    overflow-y: auto;
-    scroll-snap-type: y mandatory;
+    height: fit-content;
+    /* overflow-y: auto;
+    scroll-snap-type: y mandatory; */
 }
 
 .results-columns {
@@ -108,7 +158,7 @@ body {
     border-color: #CED4C9;
     border-width: .1em;
     display: grid;
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns: repeat(8,1fr);
     margin: 0 .8em;
     border-radius: .3em;
 }
@@ -120,9 +170,9 @@ body {
 
 .results-rows {
     display: grid;
-    grid-template-columns: repeat(7,1fr);
+    grid-template-columns: repeat(8,1fr);
     margin: 0 .8em;
-    height: 2em;
+    height: fit-content;
     background-color: white;
     border-style: solid;
     border-color: #CED4C9;

@@ -33,15 +33,34 @@
         </span>
         <div class='results-table'> 
             <div class='results-columns'>
-                <div>Name</div>
-                <div>Group</div>
-                <div>C</div>
-                <div>D</div>
-                <div>E</div>
-                <div>F</div>
-                <div>G</div>
+                <div>Genbank</div>
+                <div>Cluster</div>
+                <div>Length</div>
+                <div>Annotated</div>
+                <div>Seed Ortholog</div>
+                <div>Evalue Eggnog</div>
+                <div>Score Eggnog</div>
+                <div>Details</div>
             </div>
-            {% for e in genes %}
+
+            <div class='results-rows'>
+                <div>1</div>
+                <div>2</div>
+                <div>3</div>
+                <div>4</div>
+                <div>5</div>
+                <div>6</div>
+                <div>7</div>
+                <div>
+                    <a href='/extended' target="_blank">
+                        <button class='form-btn'>
+                            See more
+                        </button>
+                    </a>
+                </div>
+            </div>
+
+            {% comment %} {% for e in genes %}
                 <div class='results-rows'>
                     <div>{{ e.name }}</div>
                     <div>{{ e.group }}</div>
@@ -51,7 +70,7 @@
                     <div>6</div>
                     <div>7</div>
                 </div>
-            {% endfor %}
+            {% endfor %} {% endcomment %}
         </div>
     </div>
 </div>

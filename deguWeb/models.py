@@ -1,114 +1,332 @@
 from django.db import models
 
 # Create your models here.
-# *LAS TABLAS INTERMEDIAS NO DEVUELVEN INFO AL ADMIN
 #------------------------------------------------------------
 # Orden de tablas:
-#   - SPECIE
-#   - CLUSTER
-#   - GENOMEVERSION
-#   - GENE
-#   - GENOMEVERSION_GENE
-#   - COG
-#   - COG_GENE
-#   - EC
-#   - EC_GENE
-#   - EGGNOG_OG
-#   - EGGNOGOGGENE_GENE
-#   - GENONTOLOGY
-#   - GENONTOLOGY_GEN
+    # Type
+    # Role
+    # Users
+
+    # Specie
+    # Cluster
+    # Gene
+    # GenomeVersion
+    # GenomeVersionGene
+
+    # GO
+    # GOGene
+    # GOParentChild
+    # COG
+    # COGGENE
+    # Clade
+    # EggNOGOG
+    # EggNOGOGGene
+    # BiGG
+    # BiGGGene
+    # EC
+    # ECGene
+    # KEGGKO
+    # KEGGKOGene
+    # KEGGModule
+    # KEGGModuleGene
+    # KEGGPathway
+    # KEGGPathwayGene
+    # KEGGReaction
+    # KEGGReactionGene
+    # KEGGrclass
+    # KEGGrclassGene
+    # KEGGBRITE
+    # KEGGBRITEGene
+    # KEGGTC
+    # KEGGTCGene
+    # PFAM
+    # PFAMGene
+    # CAZy
+    # CAZyGene
 #------------------------------------------------------------
-# Pendientes:
-#   - BIGG
-#   - BIGG_GENE
 #------------------------------------------------------------
 
-class SPECIE(models.Model):
+class Type(models.Model):
+    usertype = models.CharField(max_length=250)
+
+    def __str__(self):
+        return 'Type: {}'.format(self.usertype)
+
+class Role(models.Model):
+    userrole = models.CharField(max_length=250)
+
+    def __str__(self):
+        return 'Role: {}'.format(self.userrole)
+
+class Users(models.Model):
+    email = models.CharField(max_length=250)
+    password = models.CharField(max_length=15)
+    name = models.CharField(max_length=50)
+    lastName = models.CharField(max_length=50)
+    image = models.CharField(max_length=250)
+    team = models.CharInteger()
+    typeId = models.ForeignKey(Type, on_delete=models.CASCADE)
+    roleId = models.ForeignKey(Role, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Name: {} LastName: {} Password: {} Team: {} Type: {} Role: {}'.format(self.name,self.lastName,self.password,self.team,self.typeId,self.roleType)
+#------------------------------------------------------------
+#------------------------------------------------------------
+
+class Specie(models.Model):
     commonName = models.CharField(max_length=50)
+    code = models.CharField(max_length=50, default='default')
     specie = models.CharField(max_length=50)
     genre = models.CharField(max_length=50)
 
     def __str__(self):
-        return 'Name: {} Specie: {} Genre: {}'.format(self.commonName,self.specie,self.genre)
+        return 'Name: {} code: {} Specie: {} Genre: {}'.format(self.commonName,self.code,self.specie,self.genre)
 
-class CLUSTER(models.Model):
-    name = models.CharField(max_length=50)
+class Cluster(models.Model):
+    cld = models.CharField(max_length=50)
     description = models.CharField(max_length=250)
 
     def __str__(self):
-        return('Name: {} // Description: {}'.format(self.name,self.description))
+        return 'Description: {} CLD: {}'.format(self.description,self.cld)
 
-class GENOMEVERSION(models.Model):
-    name = models.CharField(max_length=50)
-    ncbi_link = models.CharField(max_length=50)
-    id_specie = models.ForeignKey(SPECIE, on_delete=models.CASCADE)
+class ClusterSpecie(models.Model):
+    specieId = models.ForeignKey(Specie, on_delete=models.CASCADE)
+    clusterId = models.ForeignKey(Cluster, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Name: {} NCBI: {}'.format(self.name,self.ncbi_link)
+        return 'SpecieId: {} ClusterId: {}'.format(self.specieId,self.clusterId)
 
-class GENE(models.Model):
+class Gene(models.Model):
     genbank = models.CharField(max_length=50)
     length = models.IntegerField()
-    annotated = models.BooleanField() # Pedir valores predeterminados
-    seed_ortholog = models.CharField(max_length=50)
-    evalue_eggnog = models.FloatField() # Pedir valores predeterminados
-    score_eggnog = models.FloatField() # Pedir valores predeterminados
-    description = models.CharField(max_length=250)
-    cluster = models.ForeignKey(CLUSTER, on_delete=models.CASCADE)
+    annotated = models.BooleanField()
+    seedOrtholog = models.CharField(max_length=50)
+    evalueEggnog = models.FloatField()
+    scoreEggnog = models.FloatField()
+    description = models.CharField(max_length=50)
+    preferredName = models.CharField(max_length=250)
+    clusterId = models.ForeignKey(Cluster, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'GenBank: {} Length: {} Annotated: {} Seed Ortholog: {} Evalue Eggnog: {} Score Eggnog: {} Description: {}'.format(self.genbank,self.length,self.annotated,self.seed_ortholog,self.evalue_eggnog,self.score_eggnog,self.description)
+        return 'GenBank: {} Description: {} ClusterId: {} Preferred Name: {}'.format(self.genbank,self.description,self.clusterId,self.preferredName)
 
-class GENOMEVERSION_GENE(models.Model):
-    id_gene = models.ForeignKey(GENE, on_delete=models.CASCADE)
-    id_genomeversion= models.ForeignKey(GENOMEVERSION, on_delete=models.CASCADE)
+class GenomeVersion(models.Model):
+    specieId = models.ForeignKey(Specie, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50)
+    ncbi_link = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'SpecieId: {} Name: {} Ncbi_link: {}'.format(self.specieId,self.name,self.ncbi_link)
+
+class GenomeVersionGene(models.Model):
+    genomeversionId = models.ForeignKey(GenomeVersion, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'GenomeVersionId: {} GeneId: {}'.format(self.genomeversionId,self.geneId)
+#------------------------------------------------------------
+#------------------------------------------------------------
+
+class GO(models.Model):
+    go = models.CharField(max_length=50)
+    description = models.CharField(max_length=250)
+
+    def __str__(self):
+        return 'GO: {} Description: {}'.format(self.go,self.description)
+
+class GOGene(models.Model):
+    goId = models.ForeignKey(GO, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'GOId: {} GeneId: {}'.format(self.goId,self.geneId)
+
+class GOParentChild(models.Model):
+    goparentId = models.ForeignKey(GO, on_delete=models.CASCADE, related_name='parent')
+    gochildId = models.ForeignKey(GO, on_delete=models.CASCADE, related_name='child')
+
+    def __str__(self):
+        return 'ParentId: {} ChildId: {}'.format(self.goparentId,self.gochildId)
 
 class COG(models.Model):
     color = models.CharField(max_length=50)
-    cogletter = models.CharField(max_length=1)
-    description = models.CharField(max_length=150)
+    letter = models.CharField(max_length=1)
+    description = models.CharField(max_length=250)
 
     def __str__(self):
-        return 'Color: {} Cogletter: {} Description: {}'.format(self.color,self.cogletter,self.description)
+        return 'Color: {} Letter: {} Description: {}'.format(self.color,self.letter,self.description)
 
-class COG_GENE(models.Model):
-    id_gene = models.ForeignKey(GENE, on_delete=models.CASCADE)
-    id_cog = models.ForeignKey(COG, on_delete=models.CASCADE)
+class COGGene(models.Model):
+    cogId = models.ForeignKey(COG, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'COGId: {} GeneId: {}'.format(self.cogId,self.geneId)
+
+class Clade(models.Model):
+    eggdbId = models.IntegerField()
+    clade = models.CharField(max_length=250)
+    parentId = models.ForeignKey('self', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'EggdbId: {} Clade: {} parentId: {}'.format(self.eggdbId,self.clade,self.parentId)
+
+class EggNOGOG(models.Model):
+    code = models.CharField(max_length=50, default='default')
+    parentId = models.ForeignKey('self', on_delete=models.CASCADE, blank=True)
+    cladeId = models.ForeignKey(Clade, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'Code: {} parentId: {} CladeId: {}'.format(self.code,self.parentId,self.cladeId)
+
+class EggNOGOGGene(models.Model):
+    eggnogogId = models.ForeignKey(EggNOGOG, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'EggnogogId: {} GeneId: {}'.format(self.eggnogogId,self.geneId)
+
+class BiGG(models.Model):
+    model = models.CharField(max_length=250)
+    description = models.CharField(max_length=250)
+
+    def __str__(self):
+        return 'Model: {} Description: {}'.format(self.model,self.description)
+
+class BiGGGene(models.Model):
+    biggId = models.ForeignKey(BiGG, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'BiGGId: {} GeneId: {}'.format(self.biggId,self.geneId)
 
 class EC(models.Model):
-    test = models.CharField(max_length=50)
-    brenda_link = models.CharField(max_length=100)
-    description = models.CharField(max_length=150)
-    id_EC = models.ForeignKey('self',on_delete=models.CASCADE)
+    ec = models.CharField(max_length=50)
+    parentId = models.ForeignKey('self', on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'EC: {} Brenda Link: {} Description: {} Parent: {}'.format(self.ec,self.brenda_link,self.description,self.id_EC)
+        return 'EC: {} ParentId: {}'.format(self.ec,self.parentId)
 
-class EC_GENE(models.Model):
-    id_gene = models.ForeignKey(GENE,on_delete=models.CASCADE)
-    id_ec = models.ForeignKey(EC,on_delete=models.CASCADE)
-
-class EGGNOG_OG(models.Model):
-    code = models.CharField(max_length=50)
-    ensembl = models.CharField(max_length=50)
-    id_eggnogoggene = models.ForeignKey('self',on_delete=models.CASCADE)
+class ECGene(models.Model):
+    ecId = models.ForeignKey(EC, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'Code: {} Ensembl: {} Parent: {}'.format(self.code,self.ensembl,self.id_eggnogoggene)
+        return 'ECId: {} GeneId: {}'.format(self.ecId,self.geneId)
 
-class EGGNOGOGGENE_GENE(models.Model):
-    id_gene = models.ForeignKey(GENE,on_delete=models.CASCADE)
-    id_eggnogoggene = models.ForeignKey(EGGNOG_OG,on_delete=models.CASCADE)
-
-class GENONTOLOGY(models.Model):
-    go = models.CharField(max_length=50)
-    description = models.CharField(max_length=250)
-    id_genontology = models.ForeignKey('self',on_delete=models.CASCADE)
+class KEGGKO(models.Model):
+    name = models.CharField(max_length=50)
 
     def __str__(self):
-        return 'Geneontology: {} Description: {} Parent: {}'.format(self.go,self.description,self.id_genontology)
+        return 'Name: {}'.format(self.name)
 
-class GENONTOLOGY_GEN(models.Model):
-    id_gene = models.ForeignKey(GENE,on_delete=models.CASCADE)
-    id_geneontology = models.ForeignKey(GENONTOLOGY,on_delete=models.CASCADE)
+class KEGGKOGene(models.Model):
+    koId = models.ForeignKey(KEGGKO, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return 'KOId: {} GeneId: {}'.format(self.koId,self.geneId)
+
+class KEGGModule(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGModuleGene(models.Model):
+    moduleId = models.ForeignKey(KEGGModule, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'ModuleId: {} GeneId: {}'.format(self.moduleId,self.geneId)
+
+class KEGGPathway(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGPathwayGene(models.Model):
+    pathwayId = models.ForeignKey(KEGGPathway, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'PathwayId: {} GeneId: {}'.format(self.pathwayId,self.geneId)
+
+class KEGGReaction(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGReactionGene(models.Model):
+    reactionId = models.ForeignKey(KEGGReaction, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'ReactionId: {} GeneId: {}'.format(self.reactionId,self.geneId)
+
+class KEGGrclass(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGrclassGene(models.Model):
+    rclassId = models.ForeignKey(KEGGrclass, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'RclassId: {} GeneId: {}'.format(self.rclassId,self.geneId)
+
+class KEGGBRITE(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGBRITEGene(models.Model):
+    briteId = models.ForeignKey(KEGGBRITE, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'BriteId: {} GeneId: {}'.format(self.briteId,self.geneId)
+
+class KEGGTC(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class KEGGTCGene(models.Model):
+    tcId = models.ForeignKey(KEGGTC, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'TcId: {} GeneId: {}'.format(self.tcId,self.geneId)
+
+class PFAM(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class PFAMGene(models.Model):
+    pfamId = models.ForeignKey(PFAM, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'PfamId: {} GeneId: {}'.format(self.pfamId,self.geneId)
+
+class CAZy(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return 'Name: {}'.format(self.name)
+
+class CAZyGene(models.Model):
+    cazyId = models.ForeignKey(CAZy, on_delete=models.CASCADE)
+    geneId = models.ForeignKey(Gene, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'CazyId: {} GeneId: {}'.format(self.cazyId,self.geneId)

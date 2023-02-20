@@ -1,10 +1,10 @@
 # ---------- The form ----------
 from .forms import Filter
-# ---------- The tables ----------
-from .models import SPECIE, CLUSTER, GENOMEVERSION, GENE, GENOMEVERSION_GENE, COG, COG_GENE, EC, EC_GENE, EGGNOG_OG, EGGNOGOGGENE_GENE, GENONTOLOGY, GENONTOLOGY_GEN, CLUSTER
+# ---------- To visualize ----------
+from rpy2 import robjects
 # ---------- To render the info ----------
 from django.shortcuts import render
-# from .models import gen, attribute, SPECIE, group
+from .models import Type, Role, Users, Specie, Cluster, Gene, GenomeVersion, GenomeVersionGene, GO, GOGene, GOParentChild, COG, COGGENE, Clade, EggNOGOG, EggNOGOGGene, BiGG, BiGGGene, EC, ECGene, KEGGKO, KEGGKOGene, KEGGModule, KEGGModuleGene, KEGGPathway, KEGGPathwayGene, KEGGReaction, KEGGReactionGene, KEGGrclass, KEGGrclassGene, KEGGBRITE, KEGGBRITEGene, KEGGTC, KEGGTCGene, PFAM, PFAMGene, CAZy, CAZyGene
 # ---------- To download the info ----------
 import pandas as pd
 from openpyxl import Workbook
@@ -73,3 +73,20 @@ def download(request):
     response['Content-Disposition'] = 'Attachment;filename={}'.format(filename)
 
     return response
+
+def extended(request):
+    genes = []
+
+    # --- Using cluster id to filter the genes ---
+    k = request.session['key']
+    genes = GENE.objects.filter(cluster=k)
+
+    # --- Calling R script ---
+    robjects.r('''
+    library(pathview)
+
+    genes <- read.delim('genes/{}.txt', header = F)
+
+    pv.out <- pathview(gene.data = genes, pathway.id = '05010', species = 'ko', kegg.native = T, same.layer = T, out.suffix = 'fromPython', gene.idtype = 'genbank', sign.pos = 'right')
+'''.format(specie))
+    return render(request, 'extended.html')
