@@ -64,7 +64,7 @@ class Users(models.Model):
     name = models.CharField(max_length=50)
     lastName = models.CharField(max_length=50)
     image = models.CharField(max_length=250)
-    team = models.CharInteger()
+    team = models.IntegerField()
     typeId = models.ForeignKey(Type, on_delete=models.CASCADE)
     roleId = models.ForeignKey(Role, on_delete=models.CASCADE)
 
@@ -83,7 +83,7 @@ class Specie(models.Model):
         return 'Name: {} code: {} Specie: {} Genre: {}'.format(self.commonName,self.code,self.specie,self.genre)
 
 class Cluster(models.Model):
-    cld = models.CharField(max_length=50)
+    cld = models.CharField(max_length=50, blank=True)
     description = models.CharField(max_length=250)
 
     def __str__(self):
@@ -104,7 +104,7 @@ class Gene(models.Model):
     evalueEggnog = models.FloatField()
     scoreEggnog = models.FloatField()
     description = models.CharField(max_length=50)
-    preferredName = models.CharField(max_length=250)
+    preferredName = models.CharField(max_length=250, default='')
     clusterId = models.ForeignKey(Cluster, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -165,16 +165,16 @@ class COGGene(models.Model):
 
 class Clade(models.Model):
     eggdbId = models.IntegerField()
-    clade = models.CharField(max_length=250)
+    cladeValue = models.CharField(max_length=250)
     parentId = models.ForeignKey('self', on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'EggdbId: {} Clade: {} parentId: {}'.format(self.eggdbId,self.clade,self.parentId)
+        return 'EggdbId: {} Clade: {} parentId: {}'.format(self.eggdbId,self.cladeValue,self.parentId)
 
 class EggNOGOG(models.Model):
     code = models.CharField(max_length=50, default='default')
-    parentId = models.ForeignKey('self', on_delete=models.CASCADE, blank=True)
-    cladeId = models.ForeignKey(Clade, on_delete=models.CASCADE)
+    parentId = models.ForeignKey('self', on_delete=models.CASCADE, default='')
+    cladeId = models.ForeignKey(Clade, on_delete=models.CASCADE, default='')
 
     def __str__(self):
         return 'Code: {} parentId: {} CladeId: {}'.format(self.code,self.parentId,self.cladeId)
@@ -201,11 +201,11 @@ class BiGGGene(models.Model):
         return 'BiGGId: {} GeneId: {}'.format(self.biggId,self.geneId)
 
 class EC(models.Model):
-    ec = models.CharField(max_length=50)
+    ecValue = models.CharField(max_length=50)
     parentId = models.ForeignKey('self', on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'EC: {} ParentId: {}'.format(self.ec,self.parentId)
+        return 'EC: {} ParentId: {}'.format(self.ecValue,self.parentId)
 
 class ECGene(models.Model):
     ecId = models.ForeignKey(EC, on_delete=models.CASCADE)

@@ -4,7 +4,7 @@ from .forms import Filter
 from rpy2 import robjects
 # ---------- To render the info ----------
 from django.shortcuts import render
-from .models import Type, Role, Users, Specie, Cluster, Gene, GenomeVersion, GenomeVersionGene, GO, GOGene, GOParentChild, COG, COGGENE, Clade, EggNOGOG, EggNOGOGGene, BiGG, BiGGGene, EC, ECGene, KEGGKO, KEGGKOGene, KEGGModule, KEGGModuleGene, KEGGPathway, KEGGPathwayGene, KEGGReaction, KEGGReactionGene, KEGGrclass, KEGGrclassGene, KEGGBRITE, KEGGBRITEGene, KEGGTC, KEGGTCGene, PFAM, PFAMGene, CAZy, CAZyGene
+from .models import Type, Role, Users, Specie, Cluster, Gene, GenomeVersion, GenomeVersionGene, GO, GOGene, GOParentChild, COG, COGGene, Clade, EggNOGOG, EggNOGOGGene, BiGG, BiGGGene, EC, ECGene, KEGGKO, KEGGKOGene, KEGGModule, KEGGModuleGene, KEGGPathway, KEGGPathwayGene, KEGGReaction, KEGGReactionGene, KEGGrclass, KEGGrclassGene, KEGGBRITE, KEGGBRITEGene, KEGGTC, KEGGTCGene, PFAM, PFAMGene, CAZy, CAZyGene
 # ---------- To download the info ----------
 import pandas as pd
 from openpyxl import Workbook
