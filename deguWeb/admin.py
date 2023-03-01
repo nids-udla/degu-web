@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Type, Role, Users, Specie, Cluster, Gene, GenomeVersion, GenomeVersionGene, GO, GOGene, GOParentChild, COG, COGGene, Clade, EggNOGOG, EggNOGOGGene, BiGG, BiGGGene, EC, ECGene, KEGGKO, KEGGKOGene, KEGGModule, KEGGModuleGene, KEGGPathway, KEGGPathwayGene, KEGGReaction, KEGGReactionGene, KEGGrclass, KEGGrclassGene, KEGGBRITE, KEGGBRITEGene, KEGGTC, KEGGTCGene, PFAM, PFAMGene, CAZy, CAZyGene
+from .models import Type, Role, Users, Specie, Cluster, ClusterSpecie, Gene, GenomeVersion, GenomeVersionGene, GO, GOGene, GOParentChild, COG, COGGene, Clade, EggNOGOG, EggNOGOGGene, BiGG, BiGGGene, EC, ECGene, KEGGKO, KEGGKOGene, KEGGModule, KEGGModuleGene, KEGGPathway, KEGGPathwayGene, KEGGReaction, KEGGReactionGene, KEGGrclass, KEGGrclassGene, KEGGBRITE, KEGGBRITEGene, KEGGTC, KEGGTCGene, PFAM, PFAMGene, CAZy, CAZyGene
 
 # Register your models here.
 admin.site.register(Type)
@@ -8,6 +8,7 @@ admin.site.register(Users)
 
 admin.site.register(Specie)
 admin.site.register(Cluster)
+admin.site.register(ClusterSpecie)
 admin.site.register(Gene)
 admin.site.register(GenomeVersion)
 admin.site.register(GenomeVersionGene)

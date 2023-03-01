@@ -9,6 +9,7 @@ from django.db import models
 
     # Specie
     # Cluster
+    # ClusterSpecie
     # Gene
     # GenomeVersion
     # GenomeVersionGene
