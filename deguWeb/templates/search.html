@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="bg-gray-700 shadow px-8">
+    <!-- Form. -->
+    <div class="px-4 py-5 sm:p-6">
+        <!-- Hero title and user name. -->
+        <h3 class="text-2xl font-bold leading-6 text-white">Welcome <i class="text-green-600"> {{ user.first_name }} </i>, to the search panel.</h3>
+        <!-- Hero components. -->
+        <div class="mt-2 sm:flex sm:items-start sm:justify-between">
+            <!-- Hero description. -->
+            <div class="max-w-xl text-sm text-white mb-4">
+                <p>With this form you can explore our database filled with the exciting data used in the investigation that we have done.</p>
+                <br/>
+                <p>You can select one or multiple species, it is your call and we deliver.</p>
+            </div>
+        <form action="filter" method="POST">
+            {% csrf_token %}
+            <!-- Hero button. -->
+            <div class="mt-5 sm:mt-0 sm:ml-6 sm:flex sm:flex-shrink-0 sm:items-center">
+                <button type="submit" class="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500"> Search </button>
+            </div>
+        </div>
+        <!-- Checkboxes form. -->
+        <fieldset>
+            <legend class="sr-only">Notifications</legend>
+            <div class="space-y-5">
+            <!-- Checkbox 1. -->
+            <div class="relative flex items-start">
+                <!-- Input 1. -->
+                <div class="flex h-6 items-center">
+                    <input id="od" aria-describedby="comments-description" name="od" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600">
+                </div>
+                <!-- Label 1. -->
+                <div class="ml-3 text-sm leading-6">
+                  <label for="comments" class="font-medium text-green-500">Octodon degus (OD)</label>
+                  <span id="comments-description" class="text-white"><span class="sr-only">New comments </span>short description.</span>
+                </div>
+            </div>
+            <!-- Checkbox 2. -->
+            <div class="relative flex items-start">
+                <!-- Input 1. -->
+                <div class="flex h-6 items-center">
+                    <input id="hs" aria-describedby="comments-description" name="hs" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600">
+                </div>
+                <!-- Label 1. -->
+                <div class="ml-3 text-sm leading-6">
+                  <label for="candidates" class="font-medium text-green-500">Homo sapiens (HS)</label>
+                  <span id="candidates-description" class="text-white"><span class="sr-only">New candidates </span>short description.</span>
+                </div>
+            </div>
+            <!-- Checkbox 3. -->
+            <div class="relative flex items-start">
+                <!-- Input 3. -->
+                <div class="flex h-6 items-center">
+                    <input id="hg" aria-describedby="comments-description" name="hg" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600">
+                </div>
+                <!-- Label 3. -->
+                <div class="ml-3 text-sm leading-6">
+                  <label for="offers" class="font-medium text-green-500">Heterocephalus glaber (HG)</label>
+                  <span id="offers-description" class="text-white"><span class="sr-only">Offers </span>short description.</span>
+                </div>
+            </div>
+            <!-- Checkbox 4. -->
+            <div class="relative flex items-start">
+                <!-- Input 4. -->
+                <div class="flex h-6 items-center">
+                    <input id="mm" aria-describedby="comments-description" name="mm" type="checkbox" class="h-4 w-4 rounded border-gray-300 text-green-600 focus:ring-green-600">
+                </div>
+                <!-- Label 4. -->
+                <div class="ml-3 text-sm leading-6">
+                  <label for="offers" class="font-medium text-green-500">Mus musculus (MM)</label>
+                  <span id="offers-description" class="text-white"><span class="sr-only">Offers </span>short description.</span>
+                </div>
+            </div>
+            </div>
+          </fieldset>
+        </form>
+    </div>
+</div>
+<div class="bg-gray-700 py-10 px-8 mt-2">
+    <!-- Table. -->
+    <div class="px-4 sm:px-6 lg:px-8">
+        <!-- Table hero. -->
+        <div class="sm:flex sm:items-center">
+            <div class="sm:flex-auto">
+                <h1 class="text-2xl font-semibold leading-6 text-white">Results.</h1>
+                <p class="mt-2 text-sm text-gray-300">A list of all the users in your account including their name, title, email and role.</p>
+            </div>
+            <!-- Table button. -->
+            <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <form action='download' method='POST'>
+                {% csrf_token %}
+                <button type="submit" class="block rounded-md bg-green-600 py-2 px-3 text-center text-sm font-semibold text-white hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-500">Download</button>
+                </form>
+            </div>
+        </div>
+        <div class="mt-8 flow-root">
+        <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+            <table class="min-w-full divide-y divide-gray-700">
+                <thead>
+                <tr>
+                    <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-white sm:pl-0">Genbank</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Name</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Length</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Annotated</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Seed Ortholog</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Evalue Eggnog</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Score Eggnog</th>
+                    <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-white">Description</th>
+                    <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                    <span class="sr-only">Edit</span>
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-800">
+                <tr>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-white sm:pl-0">Lindsay Walton</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-300">Front-end Developer</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-300">lindsay.walton@example.com</td>
+                    <td class="whitespace-nowrap py-4 px-3 text-sm text-gray-300">Member</td>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-300 sm:pl-0">Lindsay Walton</td>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-300 sm:pl-0">Lindsay Walton</td>
+                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-gray-300 sm:pl-0">Lindsay Walton</td>
+                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                    <a href="#" class="text-green-600 hover:text-green-300">Edit<span class="sr-only">, Lindsay Walton</span></a>
+                    </td>
+                </tr>
+
+                <!-- More people... -->
+                </tbody>
+            </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
