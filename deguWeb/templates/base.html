@@ -20,15 +20,14 @@
           <a href="/" class="-m-1.5 p-1.5">
               {% if user.is_authenticated %}
                 <span class="sr-only ">Your Company</span>
-                <p class="text-white text-sm mb-1"><i>Online...</i></p>
-                <img class="animate-pulse h-10 w-auto rounded-full bg-green-600 p-1 mb-4" src="../static/imgs/logo.svg" alt="logo">
+                <img class="animate-pulse h-10 w-auto rounded-full bg-green-600 p-1" src="../static/imgs/logo.svg" alt="logo">
               {% else %}
                 <span class="sr-only ">Your Company</span>
-                <img class="h-10 w-auto rounded-full mb-4 mt-4-3" src="../static/imgs/logo.svg" alt="logo">
+                <img class="h-10 w-auto rounded-full mt-4-3" src="../static/imgs/logo.svg" alt="logo">
               {% endif %}
           </a>
           <!-- Navigation links. -->
-          <div class="hidden lg:flex lg:gap-x-12 items-center ml-5">
+          <div class="hidden lg:flex lg:gap-x-12 items-center ml-5 ">
             <a href="/" class="text-sm font-semibold leading-6 text-white"> Home </a>
 
             <a href="/#team" class="text-sm font-semibold leading-6 text-white"> Team </a>
@@ -36,16 +35,8 @@
             {% if user.is_authenticated %}
               <a href="search" class="text-sm font-semibold leading-6 text-white"> Search </a>
             {% endif %}
+          </div>
         </div>
-        </div>
-        <!-- I am not sure yet.. -->
-        <div class="flex lg:hidden">
-          <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700">
-              <span class="sr-only">Open main menu</span>
-              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-              </svg>
-          </button>
         </div>
         <!-- Log in/out. -->
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -56,47 +47,14 @@
           {% endif %}
         </div>
       </nav>
-        <!-- Mobile menu, show/hide based on menu open state. -->
-        <div class="lg:hidden" role="dialog" aria-modal="true">
-            <!-- Background backdrop, show/hide based on slide-over state. -->
-            <div class="fixed inset-0 z-10"></div>
-            <div class="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-gray-800 px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div class="flex items-center justify-between">
-                <a href="/" class="-m-1.5 p-1.5">
-                <span class="sr-only">Your Company</span>
-                <img class="h-8 w-auto" src="../static/imgs/logo.svg" alt="">
-                </a>
-                <button type="button" class="-m-2.5 rounded-md p-2.5 text-white">
-                <span class="sr-only">Close menu</span>
-                <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                </button>
-            </div>
-            <div class="mt-6 flow-root">
-                <div class="-my-6 divide-y divide-gray-500/10">
-                <div class="space-y-2 py-6">
-                        <a href="/" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50"> Home </a>
-
-                        <a href="team" class="-mx-3 block rounded-lg py-2 px-3 text-base font-semibold leading-7 text-white hover:bg-gray-50"> Team </a>
-
-                        {% if user.is_authenticated %}
-                          <a href="search" class="text-sm font-semibold leading-6 text-white hover:text-green-600"> Search <span aria-hidden="true">&rarr;</span></a>
-                        {% endif %}
-
-                </div>
-                <div class="py-6">
-                  {% if user.is_authenticated %}
-                  <a href="logout" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white hover:bg-green-600">Log out</a>
-                  {% else %}
-                    <a href="login" class="-mx-3 block rounded-lg py-2.5 px-3 text-base font-semibold leading-7 text-white hover:bg-green-600">Log in</a>
-                  {% endif %}
-                    
-                </div>
-                </div>
-            </div>
-            </div>
+        <!-- Active user banner. -->
+        {% if user.is_authenticated %}
+        <div class="flex items-center justify-between gap-x-6 bg-gray-900 py-2.5 px-6 sm:pr-3.5 lg:pl-8">
+          <p class="text-sm leading-6 text-white pl-5">
+            This banner is visible because  <i class="text-green-600"> {{ user.first_name }} </i> is online! You can navigate trought the <i>"Search"</i> section now.
+          </p>
         </div>
+        {% endif %}
     </header>
 
     <body class="h-full">

@@ -56,7 +56,7 @@ def filter(request):
     toSearch = []
     genes = []
     k = 0
-
+  
     # --- Adding the checked boxes to compare against the db ---
     if request.POST:
         if request.POST.get('hs') == 'on':
@@ -74,7 +74,7 @@ def filter(request):
         if str(e.description).split(',') == toSearch:
             # --- Using cluster id to filter the genes ---
             k = e.id
-            genes = Gene.objects.filter(cluster=k)
+            genes = Gene.objects.filter(clusterId=k)
             # --- Saving cluster id in a session ---
             request.session['key'] = k
             break
@@ -87,8 +87,8 @@ def filter(request):
 
 def download(request):
     # --- Using cluster id to filter the genes ---
-    k = request.session['key']
-    genes = Gene.objects.filter(cluster=k)
+    k = request.session.get('key')
+    genes = Gene.objects.filter(clusterId=k)
 
     # --- Creating excel with pandas ---
     df = pd.DataFrame(list(genes.values()))
@@ -114,7 +114,7 @@ def extended(request):
     genes = []
 
     # --- Using cluster id to filter the genes ---
-    k = request.session['key']
+    k = request.session.get('key')
     genes = Gene.objects.filter(cluster=k)
 
     # --- Calling R script ---
@@ -123,6 +123,6 @@ def extended(request):
 
     genes <- read.delim('genes/{}.txt', header = F)
 
-    pv.out <- pathview(gene.data = genes, pathway.id = '05010', species = 'ko', kegg.native = T, same.layer = T, out.suffix = 'fromPython', gene.idtype = 'genbank', sign.pos = 'right')
-'''.format(specie))
+    pv.out <- pathview(gene.data = genes, pathway.id = '05010', species = 'ko ', kegg.native = T, same.layer = T, out.suffix = 'deguweb', gene.idtype = 'genbank', sign.pos = 'right')
+    '''.format(specie))
     return render(request, 'extended.html')
